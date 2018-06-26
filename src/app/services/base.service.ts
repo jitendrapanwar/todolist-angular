@@ -6,20 +6,20 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BaseService {
 
-  private API_URL = "http://localhost:3000"
+  API_URL = "http://localhost:3000"
 
   constructor(private http:HttpClient) { }
 
-  getPosts(endPoint) {
-    return this.http.get(`${this.API_URL}${endPoint}`)
+  getPosts() {
+    return this.http.get(`${this.API_URL}/posts`)
   }
 
-  getComments(endPoint) {
-    return this.http.get(`${this.API_URL}${endPoint}`)
+  getComments() {
+    return this.http.get(`${this.API_URL}/comments`)
   }
 
-  getProfile(endPoint) {
-    return this.http.get(`${this.API_URL}${endPoint}`)
+  getProfile() {
+    return this.http.get(`${this.API_URL}/profile`)
   }
 
 }

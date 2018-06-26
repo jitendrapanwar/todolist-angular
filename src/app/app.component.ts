@@ -15,15 +15,15 @@ export class AppComponent implements OnInit{
     
   }
   ngOnInit(): void {
-     this.bs.getPosts('/posts').subscribe(data => {
+     this.bs.getPosts().subscribe(data => {
         console.log(data);
       });
 
-      this.bs.getComments('/comments').subscribe(data => {
+      this.bs.getComments().subscribe(data => {
         console.log(data);
       });
 
-      this.bs.getProfile('/profile').subscribe(data => {
+      this.bs.getProfile().subscribe(data => {
         console.log(data);
       });
     }
