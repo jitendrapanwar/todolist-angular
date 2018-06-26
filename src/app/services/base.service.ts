@@ -1,25 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { REQUEST, API_URL } from '../app.endpoints';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaseService {
 
-  API_URL = "http://localhost:3000"
-
   constructor(private http:HttpClient) { }
 
   getPosts() {
-    return this.http.get(`${this.API_URL}/posts`)
+    return this.http.get(`${API_URL}${REQUEST.GET_POSTS}`)
   }
 
   getComments() {
-    return this.http.get(`${this.API_URL}/comments`)
+    return this.http.get(`${API_URL}${REQUEST.GET_COMMENTS}`)
   }
 
   getProfile() {
-    return this.http.get(`${this.API_URL}/profile`)
+    return this.http.get(`${API_URL}${REQUEST.GET_PROFILE}`)
   }
 
 }

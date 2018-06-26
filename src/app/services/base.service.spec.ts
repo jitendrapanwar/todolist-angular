@@ -1,6 +1,7 @@
 import { TestBed, inject,getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
+import { API_URL, REQUEST } from '../app.endpoints';
 
 import { BaseService } from './base.service';
 
@@ -47,7 +48,7 @@ describe('#getPosts', () => {
   });
 
   it('should be GET request with endpoint /posts', () => {
-    const req = httpMock.expectOne(`${service.API_URL}/posts`);
+    const req = httpMock.expectOne(`${API_URL}${REQUEST.GET_POSTS}`);
     expect(req.request.method).toBe("GET");
     req.flush(dummyPosts);
   })
@@ -69,7 +70,7 @@ describe('#getComments', () => {
   });
 
   it('should be GET request with endpoint /comments', () => {
-    const req = httpMock.expectOne(`${service.API_URL}/comments`);
+    const req = httpMock.expectOne(`${API_URL}${REQUEST.GET_COMMENTS}`);
     expect(req.request.method).toBe("GET");
     req.flush(dummyComments);
   })
@@ -87,7 +88,7 @@ describe('#getProfile', () => {
   });
 
   it('should be GET request with endpoint /profile', () => {
-    const req = httpMock.expectOne(`${service.API_URL}/profile`);
+    const req = httpMock.expectOne(`${API_URL}${REQUEST.GET_PROFILE}`);
     expect(req.request.method).toBe("GET");
     req.flush(dummyProfile);
   })
