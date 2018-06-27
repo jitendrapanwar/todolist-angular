@@ -47,11 +47,10 @@ describe('#getPosts', () => {
     });
   });
 
-  it('should be GET request with endpoint /posts', () => {
-    const req = httpMock.expectOne(`${API_URL}${REQUEST.GET_POSTS}`);
-    expect(req.request.method).toBe("GET");
-    req.flush(dummyPosts);
+  it('should fail when sending an non-expected request', () => {
+    const req = httpMock.expectNone(`${API_URL}/fullposts`);
   })
+   
 });
 
 describe('#getComments', () => {
@@ -74,6 +73,11 @@ describe('#getComments', () => {
     expect(req.request.method).toBe("GET");
     req.flush(dummyComments);
   })
+
+  it('should fail when sending an non-expected request', () => {
+    const req = httpMock.expectNone(`${API_URL}/comment`);
+  })
+
 });
 
 describe('#getProfile', () => {
@@ -91,6 +95,10 @@ describe('#getProfile', () => {
     const req = httpMock.expectOne(`${API_URL}${REQUEST.GET_PROFILE}`);
     expect(req.request.method).toBe("GET");
     req.flush(dummyProfile);
+  })
+
+  it('should fail when sending an non-expected request', () => {
+    const req = httpMock.expectNone(`${API_URL}/profiles`);
   })
 });
 
