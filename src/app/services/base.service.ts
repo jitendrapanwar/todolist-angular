@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { REQUEST, API_URL } from '../app.endpoints';
-
+import { Observable } from "rxjs";
+import { flatMap } from "rxjs/operators";
 interface Post {
   "id": string,
   "title": string,
@@ -14,7 +15,10 @@ interface Post {
 export class BaseService {
 
   constructor(private http:HttpClient) { }
-
+ 
+  getPostById(id) {
+    return this.http.get<Post>(`${API_URL}${REQUEST.GET_POSTS}/${id}`)
+  }
   getPosts() {
     return this.http.get<Post>(`${API_URL}${REQUEST.GET_POSTS}`)
   }
@@ -24,7 +28,7 @@ export class BaseService {
   }
   
   getCommentByPostId(id) {
-    return this.http.get(`${API_URL}${REQUEST.GET_COMMENTS}/${id}`)  
+    return this.http.get(`${API_URL}${REQUEST.GET_COMMENTS}?postId=${id}`)  
   }
 
   getProfile() {
