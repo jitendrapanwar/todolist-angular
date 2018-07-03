@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseService, Post, Comment } from './services/base.service';
-import { flatMap, filter } from "rxjs/operators";
+import { flatMap } from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
@@ -24,11 +24,10 @@ export class AppComponent implements OnInit{
     const { id } = post;
     this.comments =[];
 
-    this.bs.getComments().pipe(
+    this.bs.getCommentByPostId(id).pipe(
       flatMap(data => data as any),
-      filter((data:Comment) => data.postId === id)
-    ).subscribe(response => {
-        this.comments.push(response);
-    }, err => this.errorMessage = err.message)
+    ).subscribe((comment:Comment) => {
+        this.comments.push(comment);
+    }, err => this.errorMessage = err.message);
   }
 }
