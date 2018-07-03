@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { REQUEST, API_URL } from '../app.endpoints';
-import { Observable } from "rxjs";
-import { flatMap } from "rxjs/operators";
+
 interface Post {
   "id": string,
   "title": string,
