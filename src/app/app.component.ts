@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseService, Post, Comment } from './services/base.service';
-import { flatMap } from "rxjs/operators";
+import { takeUntil } from "rxjs/operators";
+import { Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-root',
@@ -11,23 +13,31 @@ export class AppComponent implements OnInit{
   posts=[];
   comments=[];
   errorMessage:string;
-  
+
+  private destroy$: Subject<null> = new Subject<null>();
+
   constructor(private bs:BaseService) {}
 
   ngOnInit(): void {
-    this.bs.getPosts().subscribe(data => {
-        this.posts = data as any
+    this.bs.getPosts().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(data => {
+      this.posts = data as any;
     }, err => this.errorMessage = err.message)
   } 
 
   getComments(post:Post) {
     const { id } = post;
-    this.comments =[];
-
+   
     this.bs.getCommentByPostId(id).pipe(
-      flatMap(data => data as any),
+      takeUntil(this.destroy$),
     ).subscribe((comment:Comment) => {
-        this.comments.push(comment);
+      this.comments = comment as any;
     }, err => this.errorMessage = err.message);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }
