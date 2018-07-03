@@ -25,14 +25,6 @@ export class AppComponent implements OnInit{
       .subscribe(data => {
         this.posts = data as any
     })
-   
-    this.bs.getComments().subscribe(data => {
-      //console.log("comments : ", data);
-    }); 
-
-    this.bs.getProfile().subscribe(data => {
-     // console.log("profile data: ",data);
-    });
   } 
 
   getPostData(post:Post) {
