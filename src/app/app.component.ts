@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.bs.getPosts().subscribe(data => {
         this.posts = data as any
-    })
+    }, err => this.errorMessage = err.message)
   } 
 
   getPostData(post:Post) {
