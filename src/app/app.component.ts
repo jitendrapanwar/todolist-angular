@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseService } from './services/base.service';
-import { Observable, from } from "rxjs";
-import { map, flatMap } from "rxjs/operators";
+import { flatMap } from "rxjs/operators";
 
 interface Post {
   "id": string,
