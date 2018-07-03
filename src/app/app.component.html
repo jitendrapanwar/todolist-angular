@@ -6,12 +6,14 @@
     {{post.title}}
   </li>
 </ul>
-<div *ngIf="comments.length > 0">
+<div *ngIf="comments.length">
   <h2>Comments:</h2>
   <ul>
     <li *ngFor="let comment of comments">
       {{comment.body}}
     </li>
   </ul>
-  
+</div>
+<div *ngIf="errorMessage">
+  <p style="color: red">Error: {{errorMessage}}</p>
 </div>
