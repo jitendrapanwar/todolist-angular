@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseService } from './services/base.service';
-import { flatMap } from "rxjs/operators";
-
-interface Post {
-  "id": string,
-  "title": string,
-  "author": string
-}
+import { BaseService, Post, Comment } from './services/base.service';
+import { flatMap, filter } from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
@@ -16,22 +10,25 @@ interface Post {
 export class AppComponent implements OnInit{
   posts=[];
   comments=[];
+  errorMessage:string;
   
   constructor(private bs:BaseService) {}
 
   ngOnInit(): void {
-    this.bs.getPosts()
-      .subscribe(data => {
+    this.bs.getPosts().subscribe(data => {
         this.posts = data as any
     })
   } 
 
   getPostData(post:Post) {
     const { id } = post;
-    this.bs.getPostById(id).pipe(
-      flatMap(post => this.bs.getCommentByPostId(post.id))
+    this.comments =[];
+
+    this.bs.getComments().pipe(
+      flatMap(data => data as any),
+      filter((data:Comment) => data.postId === id)
     ).subscribe(response => {
-      this.comments = response as any;
-    });
+        this.comments.push(response);
+    }, err => this.errorMessage = err.message)
   }
 }
