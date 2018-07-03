@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { API_URL, REQUEST } from '../app.endpoints';
 
-import { BaseService } from './base.service';
+import { BaseService, Post, Comment } from './base.service';
 
 let injector: TestBed;
 let service: BaseService;
@@ -42,7 +42,6 @@ describe('#getPosts', () => {
 
   it('should return an Observable<Post[]>', () => {
     service.getPosts().subscribe(posts => {
-      //expect(posts.length).toBe(2);
       expect(posts).toEqual(dummyPosts);
     });
   });
@@ -63,42 +62,14 @@ describe('#getComments', () => {
   ]
    
   it('should return an Observable<Comments[]>', () => {
-    service.getComments().subscribe(comments => {
+    const postId = 1;
+    service.getCommentByPostId(postId).subscribe(comments => {
       expect(comments).toEqual(dummyComments);
     });
   });
-
-  it('should be GET request with endpoint /comments', () => {
-    const req = httpMock.expectOne(`${API_URL}${REQUEST.GET_COMMENTS}`);
-    expect(req.request.method).toBe("GET");
-    req.flush(dummyComments);
-  })
 
   it('should fail when sending an non-expected request', () => {
     const req = httpMock.expectNone(`${API_URL}/comment`);
   })
 
 });
-
-describe('#getProfile', () => {
-  const dummyProfile = {
-    "name": "typicode"
-  }
-   
-  it('should return an Observable<Profile{}>', () => {
-    service.getProfile().subscribe(profile => {
-      expect(profile).toEqual(dummyProfile);
-    });
-  });
-
-  it('should be GET request with endpoint /profile', () => {
-    const req = httpMock.expectOne(`${API_URL}${REQUEST.GET_PROFILE}`);
-    expect(req.request.method).toBe("GET");
-    req.flush(dummyProfile);
-  })
-
-  it('should fail when sending an non-expected request', () => {
-    const req = httpMock.expectNone(`${API_URL}/profiles`);
-  })
-});
-
