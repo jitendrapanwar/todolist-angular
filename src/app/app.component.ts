@@ -20,7 +20,7 @@ export class AppComponent implements OnInit{
     }, err => this.errorMessage = err.message)
   } 
 
-  getPostData(post:Post) {
+  getComments(post:Post) {
     const { id } = post;
     this.comments =[];
 
