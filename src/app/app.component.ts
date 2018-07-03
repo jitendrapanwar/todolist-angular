@@ -15,17 +15,16 @@ interface Post {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
- posts=[];
+  posts=[];
   comments=[];
-  constructor(private bs:BaseService) {
-    
-  }
-  ngOnInit(): void {
+  
+  constructor(private bs:BaseService) {}
 
+  ngOnInit(): void {
     this.bs.getPosts()
       .subscribe(data => {
         this.posts = data as any
-      })
+    })
    
     this.bs.getComments().subscribe(data => {
       //console.log("comments : ", data);
@@ -40,8 +39,7 @@ export class AppComponent implements OnInit{
     const { id } = post;
     this.bs.getPostById(id).pipe(
       flatMap(post => this.bs.getCommentByPostId(post.id))
-    )
-    .subscribe(response => {
+    ).subscribe(response => {
       this.comments = response as any;
     });
   }
