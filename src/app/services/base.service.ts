@@ -25,6 +25,10 @@ export class BaseService {
     return this.http.get<Post>(`${API_URL}${REQUEST.GET_POSTS}`)
   }
 
+  getComments() {
+    return this.http.get<Comment>(`${API_URL}${REQUEST.GET_COMMENTS}`)  
+  }
+
   getCommentByPostId(id) {
     return this.http.get<Comment>(`${API_URL}${REQUEST.GET_COMMENTS}?postId=${id}`)  
   }
