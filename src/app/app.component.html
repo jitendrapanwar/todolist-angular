@@ -1,19 +1,15 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<h2>Post: </h2>
-<h3>Click post to see comments.</h3>
+<h2>Posts and Comments: </h2>
 <ul>
-  <li class="handpointer" *ngFor="let post of posts" (click)="getComments(post)">
+  <li *ngFor="let post of posts">
     {{post.title}}
+    <ul *ngIf="post.comments.length">
+      <li *ngFor="let comment of post.comments">
+        {{comment.body}}
+      </li>
+    </ul>
   </li>
 </ul>
-<div *ngIf="comments.length">
-  <h2>Comments:</h2>
-  <ul>
-    <li *ngFor="let comment of comments">
-      {{comment.body}}
-    </li>
-  </ul>
-</div>
 <div *ngIf="errorMessage">
   <p style="color: red">Error: {{errorMessage}}</p>
 </div>
