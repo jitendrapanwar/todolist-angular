@@ -1,7 +1,8 @@
 {
   "posts": [
     { "id": 1, "title": "post-1", "author": "typicode" },
-    { "id": 2, "title": "post-2", "author": "typicode-1" }
+    { "id": 2, "title": "post-2", "author": "typicode-1" },
+    { "id": 3, "title": "post-3", "author": "typicode-1" }
   ],
   "comments": [
     { "id": 1, "body": "post-1 comment-1", "postId": 1 },
