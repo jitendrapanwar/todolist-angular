@@ -1,16 +1,14 @@
-import { TestBed, inject,getTestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
-import { API_URL, REQUEST } from '../app.endpoints';
-
+import { TestBed, inject, getTestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import { API_URL } from '../app.endpoints';
 import { BaseService, Post, Comment } from './base.service';
+
 
 let injector: TestBed;
 let service: BaseService;
 let httpMock: HttpTestingController;
 
 describe('BaseService', () => {
-
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -27,49 +25,84 @@ describe('BaseService', () => {
     httpMock.verify();
   });
 
-  it('should be created', inject([BaseService], (service: BaseService) => {
-    expect(service).toBeTruthy();
+  it('should be created', inject([BaseService], (bs: BaseService) => {
+    expect(bs).toBeTruthy();
   }));
 
 });
 
 describe('#getPosts', () => {
-  const dummyPosts = [{
-      "id": "1",
-      "title": "Nodejs",
-      "author": "Ryan"
-    }]
-
   it('should return an Observable<Post[]>', () => {
-    service.getPosts().subscribe(posts => {
-      expect(posts).toEqual(dummyPosts);
-    });
-  });
+    const fakePosts: Post[] = [
+      {
+        'id': '1',
+        'title': 'post-1',
+        'author': 'typicode',
+        'comments': [
+          {
+            'id': '1',
+            'body': 'post-1 comment-1',
+            'postId': '1'
+          }
+        ]
+      }
+    ];
 
-  it('should fail when sending an non-expected request', () => {
-    const req = httpMock.expectNone(`${API_URL}/fullposts`);
-  })
-   
+    service.getPosts().subscribe(posts => {
+      expect(posts.length).toBe(1);
+      expect(posts).toEqual(fakePosts);
+    });
+
+    const req = httpMock.expectOne(`${API_URL}/posts`);
+    expect(req.request.method).toBe('GET');
+    req.flush(fakePosts);
+  });
 });
 
 describe('#getComments', () => {
-  const dummyComments = [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ]
-   
-  it('should return an Observable<Comments[]>', () => {
-    const postId = 1;
-    service.getCommentByPostId(postId).subscribe(comments => {
-      expect(comments).toEqual(dummyComments);
+  it('should return an Observable<Comment[]>', () => {
+    const fakeComments: Comment[] = [
+      {
+        'id': '1',
+        'body': 'post-1 comment-1',
+        'postId': '1'
+      },
+      {
+        'id': '2',
+        'body': 'post-2 comment-1',
+        'postId': '2'
+      },
+    ];
+
+    service.getComments().subscribe(comment => {
+      expect(comment.length).toBe(2);
     });
+
+    const req = httpMock.expectOne(`${API_URL}/comments`);
+    expect(req.request.method).toBe('GET');
+    req.flush(fakeComments);
   });
+});
 
-  it('should fail when sending an non-expected request', () => {
-    const req = httpMock.expectNone(`${API_URL}/comment`);
-  })
 
+describe('#getCommentByPostId', () => {
+  it('should return an Observable<Comment[] by Post ID>', () => {
+    const fakeComments: Comment[] = [
+      {
+        'id': '1',
+        'body': 'post-1 comment-1',
+        'postId': '1'
+      }
+    ];
+
+    const postId = '1';
+
+    service.getCommentByPostId(postId).subscribe(comment => {
+      expect(comment.length).toBe(1);
+    });
+
+    const req = httpMock.expectOne(`${API_URL}/comments?postId=${postId}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(fakeComments);
+  });
 });
